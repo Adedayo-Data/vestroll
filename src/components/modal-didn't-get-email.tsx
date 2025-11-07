@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import Image from "next/image";
 import {
@@ -12,20 +12,38 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-export default function ModalDdntGetEmail({ open = true }: { open: boolean }) {
+interface ModalDdntGetEmailProps {
+  open: boolean;
+  onClose?: () => void;
+}
+
+export default function ModalDdntGetEmail({
+  open,
+  onClose,
+}: ModalDdntGetEmailProps) {
   const [isOpen, setOpen] = useState(open);
+
+  // Sync internal state with prop changes
+  useEffect(() => {
+    setOpen(open);
+  }, [open]);
+
+  const handleClose = () => {
+    setOpen(false);
+    onClose?.();
+  };
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setOpen}>
-      <AlertDialogContent className="bg-white rounded-2xl p-8">
+      <AlertDialogContent className="bg-white rounded-2xl p-8 w-full max-w-md">
         <button
-          onClick={() => setOpen(false)}
-          className="bg-transparent border-0 cursor-pointer"
+          onClick={handleClose}
+          className="bg-transparent border-0 cursor-pointer absolute top-4 left-4"
         >
           <X className="size-8 text-text-header" />
         </button>
 
-        <AlertDialogHeader className="max-w-2xs !text-center m-auto">
+        <AlertDialogHeader className="w-ful">
           <Image
             src="/IconDidnt.png"
             alt="didn't"
@@ -33,11 +51,11 @@ export default function ModalDdntGetEmail({ open = true }: { open: boolean }) {
             height={120}
             className="mx-auto mb-5 mt-12"
           />
-          <AlertDialogTitle className="font-bold text-[28px] text-text-header !text-left">
+          <AlertDialogTitle className="font-bold text-[28px] text-text-header text-left w-full px-2">
             Didn&apos;t Get the Email?
           </AlertDialogTitle>
-          <AlertDialogDescription className="font-medium text-xs mx-10 text-text-subtext">
-            <ul className="text-[10px] space-y-2 list-disc pl-4">
+          <AlertDialogDescription className="font-medium text-xs mx-10 text-text-subtext text-left w-full px-2">
+            <ul className="text-[12px] space-y-2 list-disc text-left">
               <li>
                 Check your spam or junk folder - sometimes, emails get filtered.
               </li>
@@ -52,12 +70,8 @@ export default function ModalDdntGetEmail({ open = true }: { open: boolean }) {
 
         <AlertDialogFooter className="mt-8 !justify-center">
           <AlertDialogAction
-            className="bg-primary-500 hover:bg-primary-500/80 w-full text-base  text-gray-50 rounded-[12px] h-14 font-medium 
-        
-          "
-            onClick={() => {
-              setOpen(false);
-            }}
+            className="bg-primary-500 hover:bg-primary-500/80 w-full text-base text-gray-50 rounded-[12px] h-14 font-medium"
+            onClick={handleClose}
           >
             Close
           </AlertDialogAction>
