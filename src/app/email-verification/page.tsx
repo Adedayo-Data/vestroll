@@ -12,10 +12,10 @@ import ProvideOTPModal from "@/components/ProvideOTPModal";
 import Image from "next/image";
 
 const maskEmail = (email: string): string => {
-  if (!email || !email.includes('@')) return email;
-  const [username, domain] = email.split('@');
+  if (!email || !email.includes("@")) return email;
+  const [username, domain] = email.split("@");
   if (username.length <= 2) return email;
-  const maskedUsername = username.substring(0, 2) + '***';
+  const maskedUsername = username.substring(0, 2) + "***";
   return `${maskedUsername}@${domain}`;
 };
 
@@ -24,7 +24,7 @@ interface EmailVerificationPageProps {
 }
 
 export default function EmailVerificationPage({
-  userEmail = "blessed@gmail.com"
+  userEmail = "blessed@gmail.com",
 }: EmailVerificationPageProps) {
   const maskedEmail = maskEmail(userEmail);
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
@@ -51,7 +51,7 @@ export default function EmailVerificationPage({
     setError(null);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log("Verification code:", code);
       // On success, you might want to redirect or show success message
     } catch {
@@ -64,7 +64,7 @@ export default function EmailVerificationPage({
   const handleResend = async () => {
     try {
       setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       console.log("Code resent to:", userEmail);
       setOtp(Array(6).fill(""));
       setError(null);
@@ -80,9 +80,9 @@ export default function EmailVerificationPage({
   };
 
   const handleOTPSubmit = async (otpCode: string) => {
-    console.log('OTP submitted:', otpCode);
+    console.log("OTP submitted:", otpCode);
     // Add your OTP verification logic here
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     // Close modal on success
     setShowOTPModal(false);
   };
@@ -121,10 +121,13 @@ export default function EmailVerificationPage({
 
               <div className="mt-8">
                 <h1 className="text-3xl font-bold leading-tight">
-                  Seamless Payments,<br />Anywhere.
+                  Seamless Payments,
+                  <br />
+                  Anywhere.
                 </h1>
                 <p className="mt-3 text-sm opacity-90 leading-relaxed">
-                  Experience Fast, Secure Crypto & Fiat Payroll & Invoicing with VestRoll
+                  Experience Fast, Secure Crypto & Fiat Payroll & Invoicing with
+                  VestRoll
                 </p>
               </div>
             </div>
@@ -143,8 +146,11 @@ export default function EmailVerificationPage({
                   Provide 6-digit code
                 </h2>
                 <p className="text-sm lg:text-base text-gray-600 leading-relaxed px-2">
-                  Please enter the authentication code sent to your email account{" "}
-                  <span className="font-semibold text-gray-900">{maskedEmail}</span>
+                  Please enter the authentication code sent to your email
+                  account{" "}
+                  <span className="font-semibold text-gray-900">
+                    {maskedEmail}
+                  </span>
                 </p>
               </div>
 
@@ -164,10 +170,7 @@ export default function EmailVerificationPage({
               )}
 
               <div>
-                <ResendCodeButton
-                  onClick={handleResend}
-                  disabled={isLoading}
-                />
+                <ResendCodeButton onClick={handleResend} disabled={isLoading} />
               </div>
 
               <ContinueButton

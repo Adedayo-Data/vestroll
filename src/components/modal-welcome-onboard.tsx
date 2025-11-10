@@ -50,7 +50,7 @@ export default function ModalWelcomeOnboard({
 
         <AlertDialogFooter className="mt-8 !justify-center">
           <AlertDialogAction
-            className="bg-primary-500 hover:bg-primary-500/80 w-full text-base rounded-[12px] h-14 font-medium 
+            className="bg-primary-500 hover:bg-primary-500/80 w-full text-base  text-gray-50 rounded-[12px] h-14 font-medium 
         
           "
             onClick={() => {

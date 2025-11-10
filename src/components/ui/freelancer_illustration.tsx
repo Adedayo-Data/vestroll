@@ -3,8 +3,9 @@ import React from "react";
 const FreelancerIllustration = () => {
   return (
     <svg
-      width="136"
-      height="136"
+      width="120"
+      height="120"
+      z-index="0"
       viewBox="0 0 136 136"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import mobileLogo from "../../public/logo/mologo.png";
+import leftImg from "../../public/images/Left.png";
+import ModalWelcomeOnboard from "./modal-welcome-onboard";
 
 // Type definitions
 interface FormData {
@@ -97,6 +100,7 @@ const BusinessRegistrationForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(1);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   const companySizes = [
     "1-10 employees",
@@ -191,7 +195,7 @@ const BusinessRegistrationForm: React.FC = () => {
     // Simulate API call
     setTimeout(() => {
       console.log("Form submitted:", formData);
-      alert("Business details submitted successfully!");
+      setShowWelcomeModal(true);
       setIsSubmitting(false);
     }, 2000);
   };
@@ -216,44 +220,21 @@ const BusinessRegistrationForm: React.FC = () => {
     <div className="w-full bg-white p-4">
       {/* Mobile Logo */}
       <div className="lg:hidden">
-        <Image src="/Vector.svg" alt="Globe icon" width={40} height={40} />
+        <Image
+          src={mobileLogo}
+          alt="mobileLogo"
+          className="w-10 h-10 -scale-y-100"
+        />
       </div>
 
       <div className="flex h-full">
         {/* Left Side - Hero Section (Desktop Only) */}
-        <div className="hidden lg:flex lg:w-1/2 bg-[#5E2A8C] text-white p-8 lg:p-12 flex-col justify-center relative overflow-hidden rounded-xl">
-          {/* Logo */}
-          <div className="absolute top-8 left-8">
-            <div className="bg-white bg-opacity-20 backdrop-blur-sm text-red-500 px-4 py-2 rounded-lg text-lg font-bold">
-              <Image src="/Logo.svg" alt="Globe icon" width={174} height={56} />
-            </div>
-          </div>
-
-          {/* Globe visualization */}
-          <div className="mb-8 flex justify-center">
-            <div className="relative">
-              <Image
-                src="/Frame 2147223744.svg"
-                alt="Globe icon"
-                width={494.22}
-                height={497.03}
-              />
-            </div>
-          </div>
-
-          <h1 className="text-4xl lg:text-[76px] font-extrabold mb-4 leading-tight">
-            Seamless Payments,
-            <br />
-            Anywhere.
-          </h1>
-          <p className="text-[16px] text-white">
-            Experience Fast, Secure Crypto & Fiat Payroll & Invoicing with
-            VestRoll
-          </p>
+        <div className="hidden lg:flex lg:w-1/2 text-white p-8  flex-col justify-center relative overflow-hidden rounded-xl">
+          <Image src={leftImg} alt="left image" />
         </div>
 
         {/* Right Side - Form Section */}
-        <div className="relative w-full flex-1 flex flex-col items-center sm:justify-between justify-center px-0 sm:px-4">
+        <div className="relative w-full flex-1 flex flex-col items-center sm:justify-between justify-center px-0 sm:px-4 md:mr-60">
           <div className="h-[50px] sm:block hidden"></div>
           <div className="flex items-center justify-center w-full max-w-2xl">
             <div className="w-full">
@@ -280,16 +261,16 @@ const BusinessRegistrationForm: React.FC = () => {
 
               {/* Heading */}
               <div className="mb-8">
-                <h2 className="text-2xl lg:text-[40px] font-bold text-[#17171C] mb-2">
+                <h2 className="text-2xl lg:text-[40px] font-bold h-[48px]  text-[#17171C] mb-2">
                   Add business details
                 </h2>
-                <p className="text-[#414F62] text-[16px]">
+                <p className="text-[#414F62] font-medium text-[19px]">
                   Tell us about your business
                 </p>
               </div>
 
               {/* Form */}
-              <div className="space-y-6">
+              <div className="space-y-6 text-gray-900">
                 {/* Company Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -302,7 +283,7 @@ const BusinessRegistrationForm: React.FC = () => {
                       handleInputChange("companyName", e.target.value)
                     }
                     placeholder="What's the name of your company"
-                    className={`w-full px-4 py-3 bg-[#F5F6F7] rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 ${
+                    className={`w-full px-4 py-3 bg-[#F5F6F7] text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 ${
                       errors.companyName ? "border-red-300" : "border-gray-300"
                     }`}
                   />
@@ -314,7 +295,7 @@ const BusinessRegistrationForm: React.FC = () => {
                 </div>
 
                 {/* Company Size and Industry - Always 2 columns */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 text-gray-900">
                   <Dropdown
                     label="Company size"
                     value={formData.companySize}
@@ -404,6 +385,7 @@ const BusinessRegistrationForm: React.FC = () => {
                 {/* Continue Button */}
                 <button
                   type="submit"
+                  onClick={handleSubmit}
                   disabled={!isFormValid || isSubmitting}
                   className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
                     isFormValid && !isSubmitting
@@ -413,7 +395,7 @@ const BusinessRegistrationForm: React.FC = () => {
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin pb-4 mb-2"></div>
                       Processing...
                     </div>
                   ) : (
@@ -422,10 +404,13 @@ const BusinessRegistrationForm: React.FC = () => {
                 </button>
               </div>
             </div>
+            {showWelcomeModal && (
+              <ModalWelcomeOnboard open={showWelcomeModal} />
+            )}
           </div>
           {/* Footer */}
-          <div className="w-full pt-6 text-center text-sm sm:block hidden">
-            <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+          <div className="w-full pt-6 text-center mb-8 text-sm hidden md:block">
+            <div className="flex flex-row justify-between items-center space-y-2 ">
               <span className="text-[15px] text-[#7F8C9F]">
                 © 2025, all rights reserved
               </span>

@@ -2,6 +2,8 @@
 import React, { useState, useMemo } from "react";
 import { Eye, EyeOff, Check } from "lucide-react";
 import Image from "next/image";
+import left from "../../public/images/Left.png";
+import mobileLogo from "../../public/logo/mologo.png";
 
 interface PasswordRequirements {
   minLength: boolean;
@@ -80,46 +82,19 @@ export default function PasswordPage({
     <div className="w-full bg-white p-4">
       {/* Mobile Logo */}
       <div className="lg:hidden">
-        <Image src="/Vector.svg" alt="Globe icon" width={40} height={40} />
+        <Image src={mobileLogo} alt="Globe icon" width={40} height={40} />
       </div>
 
-      <div className="flex h-full">
+      <div className="flex h-full overflow-hidden">
         {/* Left Side - Hero Section (Desktop Only) */}
-        <div className="hidden lg:flex lg:w-1/2 bg-[#5E2A8C] text-white p-8 lg:p-12 flex-col justify-center relative overflow-hidden rounded-xl">
-          {/* Logo */}
-          <div className="absolute top-8 left-8">
-            <div className="bg-white bg-opacity-20 backdrop-blur-sm text-red-500 px-4 py-2 rounded-lg text-lg font-bold">
-              <Image src="/Logo.svg" alt="Globe icon" width={174} height={56} />
-            </div>
-          </div>
-
-          {/* Globe visualization */}
-          <div className="mb-8 flex justify-center">
-            <div className="relative">
-              <Image
-                src="/Frame 2147223744.svg"
-                alt="Globe icon"
-                width={494.22}
-                height={497.03}
-              />
-            </div>
-          </div>
-
-          <h1 className="text-4xl lg:text-[76px] font-extrabold mb-4 leading-tight">
-            Seamless Payments,
-            <br />
-            Anywhere.
-          </h1>
-          <p className="text-[16px] text-white">
-            Experience Fast, Secure Crypto & Fiat Payroll & Invoicing with
-            VestRoll
-          </p>
+        <div className="hidden lg:flex lg:w-1/2 m-5 relative rounded-xl">
+          <Image src={left} alt="left image" />
         </div>
 
         {/* Right Side - Form Section */}
-        <div className="relative w-full flex-1 flex flex-col items-center sm:justify-between justify-center px-0 sm:px-4">
+        <div className="relative w-full flex-1 flex flex-col items-center sm:justify-between justify-center md:mr-70 md:mb-10 px-0 sm:px-4">
           <div className="h-[50px] sm:block hidden"></div>
-          <div className="flex items-center justify-center w-full max-w-2xl">
+          <div className="flex h-[568px] items-center justify-center w-full max-w-2xl">
             <div className="w-full">
               {/* Progress Indicator */}
               <div className="flex gap-2 mb-8">
@@ -140,10 +115,10 @@ export default function PasswordPage({
               {/* Form */}
               <div className="flex-1 flex flex-col">
                 <div className="mb-8">
-                  <h2 className="text-[20px] lg:text-[40px] font-bold text-[#17171C] mb-3">
+                  <h2 className="text-[40px] lg:text-[40px] font-bold text-[#17171C] mb-3">
                     Add a password
                   </h2>
-                  <p className="text-[#414F62] text-[16px]">
+                  <p className="text-[#414F62] text-[16px] w-[440px]">
                     Create a secure password to access your VestRoll account for
                     subsequent login
                   </p>
@@ -276,8 +251,8 @@ export default function PasswordPage({
           </div>
 
           {/* Footer */}
-          <div className="w-full pt-6 text-center text-sm sm:block hidden">
-            <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+          <div className="w-full pt-6  text-sm sm:block hidden">
+            <div className="flex flex-col sm:flex-row justify-between  space-y-2 sm:space-y-0">
               <span className="text-[15px] text-[#7F8C9F]">
                 © 2025, all rights reserved
               </span>
