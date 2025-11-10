@@ -442,6 +442,9 @@ export default function ContractDetails({
                     errors.amount ? "border-red-300" : "border-gray-300"
                   }`}
                   placeholder="0.00"
+                />
+              </div>
+            </div>
           <div>
             <label className="block text-sm font-medium text-[#414F62] mb-2">
               Asset
@@ -802,6 +805,7 @@ export default function ContractDetails({
 
       {/* File Upload - PRESERVED */}
       <FileUpload />
+    </div>
     </div>
   );
 }
