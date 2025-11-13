@@ -1,16 +1,17 @@
-'use client';
+"use client";
 
-import React, { useRef, useState } from 'react';
-import InputField from '@/components/InputField';
-import Avatar from '@/components/Avatar';
+import React, { useRef, useState } from "react";
+import InputField from "@/components/InputField";
+import Avatar from "@/components/Avatar";
 import {
   CountrySelect,
   CustomSelect,
-} from '@/app/(app)/settings/registered-address/components/select-components';
-import { countries } from '@/app/(app)/settings/registered-address/utils';
-import { Button } from '@/components/ui/button';
+} from "@/app/(app)/settings/registered-address/components/select-components";
+import { countries } from "@/app/(app)/settings/registered-address/utils";
+import { Button } from "@/components/ui/button";
 // import FileUpload from '@/components/ui/file-upload';
-import { ImagePlus } from 'lucide-react';
+import { ImagePlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   companyLogo: File | null;
@@ -25,56 +26,63 @@ interface FormData {
 
 export default function OTPVerification() {
   const logoInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const handleGoBack = () => {
-    // In real app, this would navigate to previous step
-    alert('Going back to previous step...');
+    router.back();
+    // alert("Going back to previous step...");
   };
 
   const [formData, setFormData] = useState<FormData>({
     companyLogo: null,
-    companyName: '',
-    registeredName: '',
-    registrationNumber: '',
-    country: '',
+    companyName: "",
+    registeredName: "",
+    registrationNumber: "",
+    country: "",
     size: null,
     vatNumber: null,
-    companyWebsite: '',
+    companyWebsite: "",
   });
 
   const isFormValid = true; // Placeholder for form validation logic
 
-  const sampleSizes = ['2', '5', '10-50', '50-100', '100-500', '500+'];
-  const sampleVATNumbers = ['3455', '1234', '5678', '91011'];
+  const sampleSizes = ["2", "5", "10-50", "50-100", "100-500", "500+"];
+  const sampleVATNumbers = ["3455", "1234", "5678", "91011"];
 
   const onUpload = (file: File) => {
     const maxSize = 1024 * 1024; // 1MB in bytes - Could be adjusted as needed
     if (file.size > maxSize) {
-      alert('File size exceeds 1MB. Please choose a smaller file.');
+      alert("File size exceeds 1MB. Please choose a smaller file.");
       return;
     }
     setFormData((prev) => ({ ...prev, companyLogo: file }));
     if (logoInputRef.current) {
-      logoInputRef.current.value = ''; // Reset the input value to allow re-uploading the same file if needed
+      logoInputRef.current.value = ""; // Reset the input value to allow re-uploading the same file if needed
     }
   };
 
   return (
     <div className="min-h-screen ">
-      <div className="mb-8 p-4 border-b">
+      <div className=" bg-white p-4 border-b border-gray-300">
         <button
           onClick={handleGoBack}
-          className="text-gray-400 text-sm mb-4 hover:text-gray-600 transition-colors"
+          className="text-gray-400 text-sm mb-1 hover:text-gray-600 transition-colors"
         >
           ← Back
         </button>
-        <h1 className="text-2xl font-semibold text-gray-900 mb-2">Company Information</h1>
+        <h1 className="text-2xl mb-2 font-semibold text-gray-900">
+          Company Information
+        </h1>
       </div>
       <div className="bg-gray-50 flex items-center justify-center p-4">
         <div className="w-full max-w-lg bg-white rounded-lg shadow-sm p-6 md:p-8">
           <div className="flex flex-col items-center justify-center mb-6">
             <Avatar
-              src={formData.companyLogo ? URL.createObjectURL(formData.companyLogo) : null}
+              src={
+                formData.companyLogo
+                  ? URL.createObjectURL(formData.companyLogo)
+                  : null
+              }
               alt="Company Logo"
               size="xl"
               fallback="T3"
@@ -97,12 +105,17 @@ export default function OTPVerification() {
             ref={logoInputRef}
           />
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 text-black">
             <InputField
               id="companyName"
               label="Company/Brand name"
               value={formData.companyName}
-              onChange={(e) => setFormData((prev) => ({ ...prev, companyName: e.target.value }))}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  companyName: e.target.value,
+                }))
+              }
               placeholder="--"
             />
 
@@ -110,7 +123,12 @@ export default function OTPVerification() {
               id="registeredName"
               label="Registered name"
               value={formData.registeredName}
-              onChange={(e) => setFormData((prev) => ({ ...prev, registeredName: e.target.value }))}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  registeredName: e.target.value,
+                }))
+              }
               placeholder="--"
             />
 
@@ -119,7 +137,10 @@ export default function OTPVerification() {
               label="Registration number/EIN ID"
               value={formData.registrationNumber}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, registrationNumber: e.target.value }))
+                setFormData((prev) => ({
+                  ...prev,
+                  registrationNumber: e.target.value,
+                }))
               }
               placeholder="--"
             />
@@ -128,26 +149,32 @@ export default function OTPVerification() {
               label="Country"
               options={countries}
               value={formData.country}
-              onChange={(value) => setFormData((prev) => ({ ...prev, country: value }))}
+              onChange={(value) =>
+                setFormData((prev) => ({ ...prev, country: value }))
+              }
             />
 
-            <div className="flex gap-4 w-full">
+            <div className="flex gap-4 w-full text-black">
               <div className="flex-1">
                 <CustomSelect
                   label="Size"
                   options={sampleSizes}
-                  value={formData.size || ''}
-                  onChange={() => {}}
+                  value={formData.size || ""}
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, size: value }))
+                  }
                   placeholder="-- "
                 />
               </div>
 
-              <div className="flex-1">
+              <div className="flex-1 text-black">
                 <CustomSelect
                   label="VAT number"
                   options={sampleVATNumbers}
-                  value={formData.vatNumber || ''}
-                  onChange={() => {}}
+                  value={formData.vatNumber || ""}
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, vatNumber: value }))
+                  }
                   placeholder="-- "
                 />
               </div>
@@ -157,7 +184,9 @@ export default function OTPVerification() {
               id="companyWebsite"
               label="Company public website URL"
               value={formData.companyWebsite}
-              onChange={() => {}}
+              onChange={(e) =>
+                setFormData({ ...formData, companyWebsite: e.target.value })
+              }
               placeholder="-- "
             />
           </div>
@@ -166,7 +195,9 @@ export default function OTPVerification() {
             <Button
               disabled={!isFormValid}
               className={`w-full text-white px-8 py-6 rounded-lg text-base font-semibold ${
-                isFormValid ? 'bg-[#5E2A8C] hover:bg-[#4A1F73]' : 'bg-gray-500 cursor-not-allowed'
+                isFormValid
+                  ? "bg-[#5E2A8C] hover:bg-[#4A1F73]"
+                  : "bg-gray-500 cursor-not-allowed"
               }`}
             >
               Save changes
