@@ -6,9 +6,10 @@ import ProjectDetails from "@/components/contracts/ProjectDetails";
 import EmployeeDetails from "@/components/contracts/EmployeeDetails";
 import { ComplianceForm } from "@/components/contracts/ComplianceForm";
 import ContractReviewAccordion from "@/components/contracts/Sign&Review";
+import ContractReviewModal from "@/components/contracts/ContractReviewModal";
 
 interface ContractFormData {
-  contractType: string;
+  contractType: number;
   clientName: string;
   clientEmail: string;
   clientPhone: string;
@@ -60,8 +61,9 @@ const steps = [
 
 export default function CreateContractPage() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [showReviewModal, setShowReviewModal] = useState(false);
   const [formData, setFormData] = useState<ContractFormData>({
-    contractType: "",
+    contractType: 0,
     clientName: "",
     clientEmail: "",
     clientPhone: "",
@@ -70,7 +72,7 @@ export default function CreateContractPage() {
     endDate: "",
     terminationNotice: "",
     network: "Ethereum",
-    asset: "USDT",
+    asset: "USD", //USD for now
     amount: "2000.00",
     calculatedAmount: "1974.849",
     invoiceFrequency: "",
@@ -109,8 +111,8 @@ export default function CreateContractPage() {
       }
       setCurrentStep((s) => s + 1);
     } else if (currentStep === 6) {
-      // Final step - submit the form
-      handleCreateContract();
+      // show review modal if current step is 6
+      setShowReviewModal(true);
     }
   };
 
@@ -144,6 +146,10 @@ export default function CreateContractPage() {
     setErrors(newErrors);
   };
 
+  const handleToggleReviewModal = () => {
+    setShowReviewModal(!showReviewModal);
+  }
+
   const handleCreateContract = () => {
     console.log("Creating contract with data:", formData);
     // TODO: Add API call to create contract
@@ -165,7 +171,7 @@ export default function CreateContractPage() {
           <div className="py-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
               <div onClick={() => {
-                    handleFormDataChange({ ...formData, contractType: "Fixed rate" });
+                    handleFormDataChange({ ...formData, contractType: 1 });
                     setCurrentStep(currentStep + 1);
                   }}
                 className="w-full max-w-96 p-6 bg-[#F5F6F7] rounded-lg border border-transparent
@@ -177,7 +183,7 @@ export default function CreateContractPage() {
                 </p>
               </div>
               <div onClick={() => {
-                    handleFormDataChange({ ...formData, contractType: "Pay as you go" });
+                    handleFormDataChange({ ...formData, contractType: 2 });
                     setCurrentStep(currentStep + 1);
                   }}
                 className="w-full max-w-96 p-6 bg-[#F5F6F7] rounded-lg border border-transparent
@@ -189,7 +195,7 @@ export default function CreateContractPage() {
                 </p>
               </div>
               <div onClick={() => {
-                    handleFormDataChange({ ...formData, contractType: "Milestone" });
+                    handleFormDataChange({ ...formData, contractType: 3 });
                     setCurrentStep(currentStep + 1);
                   }}
                 className="w-full max-w-96 p-6 bg-[#F5F6F7] rounded-lg border border-transparent
@@ -247,6 +253,13 @@ export default function CreateContractPage() {
           Next
         </button>
       </div>
+      )}
+      {showReviewModal && (
+        <ContractReviewModal
+          onClose={() => setShowReviewModal(false)}
+          onConfirm={handleCreateContract}  // your final submit handler
+          formData={formData}
+        />
       )}
     </div>
   );

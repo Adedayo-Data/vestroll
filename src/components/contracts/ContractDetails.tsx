@@ -8,7 +8,7 @@ import Dropdown from "@/components/ui/dropdown";
 import { z } from "zod";
 
 interface ContractFormData {
-  contractType: string;
+  contractType: number;
   clientName: string;
   clientEmail: string;
   clientPhone: string;
@@ -66,10 +66,22 @@ const networks = [
 ];
 
 const currencies = [
-  { label: "USD", icon: "/eth.svg" },
-  { label: "GBP", icon: "/eth.svg" },
-  { label: "FR", icon: "/eth.svg" },
-  { label: "YEN", icon: "/eth.svg" },
+  {
+    label: "USD",
+    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCA2MCI+PGNsaXBQYXRoIGlkPSJjIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2MpIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIGZpbGw9IiNiMjIyMzQiLz48ZyBmaWxsPSIjZmZmIj48cmVjdCB5PSI4IiB3aWR0aD0iNjAiIGhlaWdodD0iNCIvPjxyZWN0IHk9IjI0IiB3aWR0aD0iNjAiIGhlaWdodD0iNCIvPjxyZWN0IHk9IjQwIiB3aWR0aD0iNjAiIGhlaWdodD0iNCIvPjxyZWN0IHk9IjU2IiB3aWR0aD0iNjAiIGhlaWdodD0iNCIvPjwvZz48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjgiIGZpbGw9IiMzYzNiNmUiLz48L2c+PC9zdmc+"
+  },
+  {
+    label: "GBP",
+    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCA2MCI+PGNsaXBQYXRoIGlkPSJjIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2MpIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIGZpbGw9IiMwMTIxNjkiLz48cGF0aCBkPSJNMCAwbDYwIDYwTTYwIDBMMCA2MCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTAgMGw2MCA2ME02MCAwTDAgNjAiIHN0cm9rZT0iI2M4MTAyZSIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTMwIDB2NjBNMCAzMGg2MCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTMwIDB2NjBNMCAzMGg2MCIgc3Ryb2tlPSIjYzgxMDJlIiBzdHJva2Utd2lkdGg9IjEyIi8+PC9nPjwvc3ZnPg=="
+  },
+  {
+    label: "FR",
+    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCA2MCI+PGNsaXBQYXRoIGlkPSJjIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2MpIj48cmVjdCB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIGZpbGw9IiNmZmYiLz48cmVjdCB3aWR0aD0iMjAiIGhlaWdodD0iNjAiIGZpbGw9IiMwMDU1QTQiLz48cmVjdCB4PSI0MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRUY0MTM1Ii8+PC9nPjwvc3ZnPg=="
+  },
+  {
+    label: "YEN",
+    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCA2MCI+PGNsaXBQYXRoIGlkPSJjIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIvPjwvY2xpcFBhdGg+PGcgY2xwLXBhdGg9InVybCgjYykiPjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjE4IiBmaWxsPSIjYmMwMDJkIi8+PC9nPjwvc3ZnPg=="
+  },
 ];
 
 const paymentTypes = [
@@ -166,7 +178,7 @@ export default function ContractDetails({
   const [dragOver, setDragOver] = useState(false);
   // ✅ FIXED: Proper useState syntax on single line
   const [paymentFrequency, setPaymentFrequency] = useState<"Hourly" | "Daily" | "Weekly" | "Per Deliverable">("Hourly");
-  const [paymentType, setPaymnentType] = useState<string>('Crypto Currency');
+  const [paymentType, setPaymnentType] = useState<string>('Fiat');
 
   // Sync payment frequency with formData
   useEffect(() => {
@@ -493,8 +505,11 @@ export default function ContractDetails({
           </>
           :
           <>
-          <div className="grid w-full relative">
-            <div className="w-full flex flex-col justify-center">
+          <div className="grid w-full h-fit relative">
+            <div className="w-full flex flex-col gap-2 justify-center">
+              <small className="md: text-[#414F62]">
+                Enter Amount
+              </small>
               <div className="relative h-fit">
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#414F62]">
                   $
@@ -551,6 +566,7 @@ export default function ContractDetails({
       </div>
 
       {/* Payment Frequency - NEW ADDITION FROM FIGMA */}
+      {formData.contractType === 2 && (
       <div className="mb-6">
         <label className="block text-sm font-medium text-[#414F62] mb-3">
           Rate unit (Payment is based on the exact number of units submitted.)
@@ -574,8 +590,11 @@ export default function ContractDetails({
           ))}
         </div>
       </div>
+      )}
 
       {/* Invoice Details */}
+      {formData.contractType !== 3 && (
+        <>
       <div>
         <h3 className="text-lg font-semibold text-[#17171C] mb-6">
           Invoice details
@@ -724,9 +743,10 @@ export default function ContractDetails({
           placeholder="--"
         />
       </div>
+      </>)}
 
       {/* Contract Wallet - PRESERVED */}
-      <div>
+      {/* <div>
         <h3 className="text-lg font-semibold text-[#17171C] mb-6">
           Contract Wallet
         </h3>
@@ -748,10 +768,10 @@ export default function ContractDetails({
             error={errors.walletType}
           />
         </div>
-      </div>
+      </div> */}
 
       {/* End Period - PRESERVED */}
-      <div>
+      {/* <div>
         <h3 className="text-lg font-semibold text-[#17171C] mb-6">
           Contract Period
         </h3>
@@ -775,10 +795,10 @@ export default function ContractDetails({
             error={errors.renewalTerms}
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Milestones/Deliverables - PRESERVED */}
-      <div>
+      {formData.contractType === 3 && (<div>
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-[#17171C]">
             Milestones / Deliverables
@@ -863,10 +883,10 @@ export default function ContractDetails({
             ))}
           </div>
         )}
-      </div>
+      </div>)}
 
       {/* File Upload - PRESERVED */}
-      <FileUpload />
+      {/* <FileUpload /> */}
     </div>
     </div>
   );
