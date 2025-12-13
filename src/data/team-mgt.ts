@@ -1,27 +1,26 @@
-export type Timesheet = {
+import { ApprovalStatus } from "@/components/team-mgt/details.types";
+
+export type TabProps = {
   id: string;
   employeeName: string;
   profileImage: string;
   employeeRole: string;
-  rate: number;
-  totalWorked: number;
-  totalAmount: number;
-  status: 'Pending' | 'Rejected' | 'Approved';
+  status: ApprovalStatus;
   submittedAt: string;
 };
 
-export type Milestone = {
-  id: string;
-  employeeName: string;
-  profileImage: string;
-  employeeRole: string;
+export type Timesheet = TabProps & {
+  rate: number;
+  totalWorked: number;
+  totalAmount: number;
+};
+
+export type Milestone = TabProps & {
   milestoneName: string;
   milestoneCompleted: number;
   totalMilestone: number;
   amount: number;
-  status: 'Pending' | 'Rejected' | 'Approved';
   dueDate: string;
-  submittedAt: string;
 };
 
 export const timesheets: Timesheet[] = [
