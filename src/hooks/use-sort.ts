@@ -15,7 +15,7 @@ export interface UseSortParams<T> {
   itemsPerPage?: number;
 }
 
-export const useSort = <T extends Record<string, any>>({
+export const useSort = <T extends Record<string, unknown>>({
   data,
   searchKeys = [],
   initialFilters = {},

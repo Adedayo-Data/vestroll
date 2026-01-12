@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import Stepper from "./ui/stepper";
-import { ProjectDetails } from "./contracts/project-details";
-import { ContractType } from "./contracts/contract-type";
-import { EmployeeDetails } from "./contracts/employee-details";
-import ContractDetails from "./contracts/contract-details";
-import Compliance from "./contracts/compliance";
+import { ProjectDetails } from "@/components/features/contracts/project-details";
+import { ContractType } from "@/components/features/contracts/contract-type";
+import { EmployeeDetails } from "@/components/features/contracts/employee-details";
+import ContractDetails from "@/components/features/contracts/contract-details";
+import Compliance from "@/components/features/contracts/compliance";
 
 const steps = [
   { id: 1, title: "Choose Contract type", content: <ContractType /> },

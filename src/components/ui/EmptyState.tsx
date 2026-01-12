@@ -1,5 +1,5 @@
 import React from "react";
-import { EmptyStateIcon } from "../../../public/svg";
+import { EmptyStateIcon } from "@/../public/svg";
 interface EmptyStateProps {
   title: string;
   description: string;
@@ -19,3 +19,4 @@ function EmptyState({ title, description }: EmptyStateProps) {
 }
 
 export default EmptyState;
+

@@ -1,7 +1,7 @@
 'use client';
-import AuthLayer from '@/components/auth/AuthLayer';
-import Stepper from '@/components/auth/Stepper';
-import EmailVerification from '@/components/emailVerificationModal';
+import AuthLayer from '@/components/features/auth/AuthLayer';
+import Stepper from '@/components/features/auth/Stepper';
+import EmailVerification from '@/components/shared/emailVerificationModal';
 import { useRouter } from 'next/navigation';
 
 function VerifyEmailPage() {
@@ -47,3 +47,4 @@ function VerifyEmailPage() {
 }
 
 export default VerifyEmailPage;
+

@@ -1,5 +1,5 @@
 import { useAppDispatch } from "./redux.types";
-import { openModal, closeModal, ModalProps } from "../libs/slice/modalSlice";
+import { openModal, closeModal, ModalProps } from "@/lib/slice/modalSlice";
 
 interface ModalButton {
   text: string;

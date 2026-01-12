@@ -1,6 +1,6 @@
 "use client";
-import AuthLayer from "@/components/auth/AuthLayer";
-import OTPVerification from "@/components/otpVerificationModal";
+import AuthLayer from "@/components/features/auth/AuthLayer";
+import OTPVerification from "@/components/shared/otpVerificationModal";
 import { useRouter } from "next/navigation";
 
 function VerifyOTPPage() {
@@ -44,3 +44,4 @@ function VerifyOTPPage() {
 }
 
 export default VerifyOTPPage;
+

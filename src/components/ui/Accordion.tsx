@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowDownIcon } from "../../../public/svg";
+import { ArrowDownIcon } from "@/../public/svg";
 
 interface AccordionProps {
   children?: React.ReactNode;
@@ -57,3 +57,4 @@ export const Accordion: FC<AccordionProps> = ({
     </div>
   );
 };
+
