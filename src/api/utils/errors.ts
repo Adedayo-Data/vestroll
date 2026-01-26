@@ -1,0 +1,29 @@
+export class AppError extends Error {
+  constructor(
+    public message: string,
+    public statusCode: number = 500,
+    public errors: Record<string, unknown> | null = null
+  ) {
+    super(message);
+    this.name = this.constructor.name;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+export class ValidationError extends AppError {
+  constructor(message: string = "Validation failed", errors: Record<string, unknown> | null = null) {
+    super(message, 400, errors);
+  }
+}
+
+export class ConflictError extends AppError {
+  constructor(message: string = "Resource already exists") {
+    super(message, 409);
+  }
+}
+
+export class InternalServerError extends AppError {
+  constructor(message: string = "Internal server error") {
+    super(message, 500);
+  }
+}
