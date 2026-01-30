@@ -7,3 +7,9 @@ export const RegisterSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;
+
+export const GoogleOAuthSchema = z.object({
+  idToken: z.string().min(1, "ID token is required"),
+});
+
+export type GoogleOAuthInput = z.infer<typeof GoogleOAuthSchema>;

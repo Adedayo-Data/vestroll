@@ -27,3 +27,34 @@ export class InternalServerError extends AppError {
     super(message, 500);
   }
 }
+
+export class OAuthError extends AppError {
+  constructor(message: string = "OAuth authentication failed", errors: Record<string, unknown> | null = null) {
+    super(message, 401, errors);
+  }
+}
+
+export class TokenExpiredError extends AppError {
+  constructor(message: string = "Token has expired") {
+    super(message, 401);
+  }
+}
+
+export class InvalidTokenError extends AppError {
+  constructor(message: string = "Invalid token") {
+    super(message, 401);
+  }
+}
+
+export class AudienceMismatchError extends OAuthError {
+  constructor(message: string = "Token audience mismatch") {
+    super(message);
+  }
+}
+
+export class IssuerMismatchError extends OAuthError {
+  constructor(message: string = "Token issuer mismatch") {
+    super(message);
+  }
+}
+
