@@ -27,9 +27,9 @@ export async function POST(req: NextRequest) {
     // 5. Handle errors
     if (error instanceof ZodError) {
       const fieldErrors: Record<string, string> = {};
-      error.errors.forEach((err) => {
-        if (err.path[0]) {
-          fieldErrors[err.path[0].toString()] = err.message;
+      error.issues.forEach((issue) => {
+        if (issue.path[0]) {
+          fieldErrors[issue.path[0].toString()] = issue.message;
         }
       });
       return ApiResponse.error("Validation failed", 400, { fieldErrors });
