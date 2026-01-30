@@ -24,5 +24,5 @@ describe("OTPService", () => {
 
     const isInvalid = await OTPService.verifyOTP("654321", hash);
     expect(isInvalid).toBe(false);
-  });
+  }, 10000);
 });

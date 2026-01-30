@@ -10,6 +10,9 @@ import {
   TooManyRequestsError,
 } from "../utils/errors";
 
+type MockUser = Awaited<ReturnType<typeof UserService.findByEmail>>;
+type DbTransaction = typeof db.transaction;
+
 // Mock dependencies
 vi.mock("./user.service");
 vi.mock("./otp.service");
@@ -28,7 +31,7 @@ describe("OTPResendService", () => {
   });
 
   it("should throw NotFoundError if user does not exist", async () => {
-    vi.mocked(UserService.findByEmail).mockResolvedValue(null);
+    vi.mocked(UserService.findByEmail).mockResolvedValue(null as MockUser);
 
     await expect(
       OTPResendService.resendOTP("nonexistent@example.com")
@@ -45,6 +48,12 @@ describe("OTPResendService", () => {
       status: "active" as const,
       firstName: "John",
       lastName: "Doe",
+      passwordHash: null,
+      twoFactorEnabled: false,
+      twoFactorSecret: null,
+      twoFactorEnabledAt: null,
+      failedTwoFactorAttempts: 0,
+      twoFactorLockoutUntil: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -66,6 +75,12 @@ describe("OTPResendService", () => {
       status: "pending_verification" as const,
       firstName: "John",
       lastName: "Doe",
+      passwordHash: null,
+      twoFactorEnabled: false,
+      twoFactorSecret: null,
+      twoFactorEnabledAt: null,
+      failedTwoFactorAttempts: 0,
+      twoFactorLockoutUntil: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -91,6 +106,12 @@ describe("OTPResendService", () => {
       status: "pending_verification" as const,
       firstName: "John",
       lastName: "Doe",
+      passwordHash: null,
+      twoFactorEnabled: false,
+      twoFactorSecret: null,
+      twoFactorEnabledAt: null,
+      failedTwoFactorAttempts: 0,
+      twoFactorLockoutUntil: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -125,7 +146,7 @@ describe("OTPResendService", () => {
       return await callback(tx);
     });
 
-    (db.transaction as any) = mockTransaction;
+    (db.transaction as unknown as DbTransaction) = mockTransaction;
 
     const result = await OTPResendService.resendOTP("user@example.com");
 
@@ -150,6 +171,12 @@ describe("OTPResendService", () => {
       status: "pending_verification" as const,
       firstName: "John",
       lastName: "Doe",
+      passwordHash: null,
+      twoFactorEnabled: false,
+      twoFactorSecret: null,
+      twoFactorEnabledAt: null,
+      failedTwoFactorAttempts: 0,
+      twoFactorLockoutUntil: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -181,7 +208,7 @@ describe("OTPResendService", () => {
       return await callback(tx);
     });
 
-    (db.transaction as any) = mockTransaction;
+    (db.transaction as unknown as DbTransaction) = mockTransaction;
 
     await OTPResendService.resendOTP("user@example.com");
 
@@ -197,6 +224,12 @@ describe("OTPResendService", () => {
       status: "pending_verification" as const,
       firstName: "John",
       lastName: "Doe",
+      passwordHash: null,
+      twoFactorEnabled: false,
+      twoFactorSecret: null,
+      twoFactorEnabledAt: null,
+      failedTwoFactorAttempts: 0,
+      twoFactorLockoutUntil: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -226,7 +259,7 @@ describe("OTPResendService", () => {
       return await callback(tx);
     });
 
-    (db.transaction as any) = mockTransaction;
+    (db.transaction as unknown as DbTransaction) = mockTransaction;
 
     await OTPResendService.resendOTP("user@example.com");
 

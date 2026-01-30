@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { emailVerifications, users } from "../db/schema";
+import { emailVerifications } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 import { OTPService } from "./otp.service";
 import { UserService } from "./user.service";

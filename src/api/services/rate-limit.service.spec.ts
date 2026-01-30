@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { RateLimitService } from "./rate-limit.service";
 import { db } from "../db";
-import { emailVerifications } from "../db/schema";
+
+type DbSelect = typeof db.select;
 
 // Mock the database
 vi.mock("../db", () => ({
@@ -22,7 +23,7 @@ describe("RateLimitService", () => {
         where: vi.fn().mockResolvedValue([{ count: 2 }]),
       }),
     });
-    (db.select as any) = mockSelect;
+    (db.select as unknown as DbSelect) = mockSelect;
 
     const result = await RateLimitService.checkResendLimit("user-id-123");
 
@@ -54,7 +55,7 @@ describe("RateLimitService", () => {
     });
 
     let callCount = 0;
-    (db.select as any) = vi.fn(() => {
+    (db.select as unknown as DbSelect) = vi.fn(() => {
       callCount++;
       return callCount === 1 ? mockSelectCount() : mockSelectOldest();
     });
@@ -73,7 +74,7 @@ describe("RateLimitService", () => {
         where: vi.fn().mockResolvedValue([{ count: 0 }]),
       }),
     });
-    (db.select as any) = mockSelect;
+    (db.select as unknown as DbSelect) = mockSelect;
 
     const result = await RateLimitService.checkResendLimit("user-id-123");
 
@@ -102,7 +103,7 @@ describe("RateLimitService", () => {
     });
 
     let callCount = 0;
-    (db.select as any) = vi.fn(() => {
+    (db.select as unknown as DbSelect) = vi.fn(() => {
       callCount++;
       return callCount === 1 ? mockSelectCount() : mockSelectOldest();
     });
