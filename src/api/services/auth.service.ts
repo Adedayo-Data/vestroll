@@ -6,8 +6,6 @@ import {
   ConflictError,
   UnauthorizedError,
   ForbiddenError,
-  NotFoundError,
-  ValidationError,
   TooManyRequestsError
 } from "../utils/errors";
 import { PasswordVerificationService } from "./password-verification.service";
@@ -43,7 +41,7 @@ export class AuthService {
         expiresAt,
       });
 
-      console.log(`[Email Mock] Sending OTP ${otp} to ${data.email}`);
+      console.log(`[Email Mock] Sending OTP ${otp} to ${data.email} `);
 
       return {
         userId: user.id,
@@ -88,7 +86,7 @@ export class AuthService {
         success: false,
         failureReason: "Account locked",
       });
-      throw new ForbiddenError(`Account is temporarily locked. Try again after ${unlockTime}`);
+      throw new ForbiddenError(`Account is temporarily locked.Try again after ${unlockTime} `);
     }
 
     if (user.status !== "active") {
