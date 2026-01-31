@@ -11,7 +11,7 @@ export type RegisterInput = z.infer<typeof RegisterSchema>;
 export const ResendOTPSchema = z.object({
   email: z.preprocess(
     (val) => (typeof val === "string" ? val.trim().toLowerCase() : val),
-    z.string().email("Invalid email format")
+    z.string().email("Invalid email format"),
   ),
 });
 
@@ -22,3 +22,20 @@ export const GoogleOAuthSchema = z.object({
 });
 
 export type GoogleOAuthInput = z.infer<typeof GoogleOAuthSchema>;
+
+export const AppleOAuthSchema = z.object({
+  idToken: z.string().min(1, "ID token is required"),
+  user: z
+    .object({
+      name: z
+        .object({
+          firstName: z.string().optional(),
+          lastName: z.string().optional(),
+        })
+        .optional(),
+      email: z.string().optional(),
+    })
+    .optional(),
+});
+
+export type AppleOAuthInput = z.infer<typeof AppleOAuthSchema>;
