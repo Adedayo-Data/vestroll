@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { RegisterSchema } from "./auth.schema";
+import { RegisterSchema, ResendOTPSchema } from "./auth.schema";
 
 describe("RegisterSchema", () => {
   it("should validate a correct payload", () => {
@@ -34,6 +34,44 @@ describe("RegisterSchema", () => {
       businessEmail: "invalid-email",
     };
     const result = RegisterSchema.safeParse(payload);
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("ResendOTPSchema", () => {
+  it("should validate a correct email payload", () => {
+    const payload = {
+      email: "user@example.com",
+    };
+    const result = ResendOTPSchema.safeParse(payload);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.email).toBe("user@example.com");
+    }
+  });
+
+  it("should trim and lowercase email", () => {
+    const payload = {
+      email: "  USER@EXAMPLE.COM  ",
+    };
+    const result = ResendOTPSchema.safeParse(payload);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.email).toBe("user@example.com");
+    }
+  });
+
+  it("should fail validation for invalid email", () => {
+    const payload = {
+      email: "invalid-email",
+    };
+    const result = ResendOTPSchema.safeParse(payload);
+    expect(result.success).toBe(false);
+  });
+
+  it("should fail validation for missing email", () => {
+    const payload = {};
+    const result = ResendOTPSchema.safeParse(payload);
     expect(result.success).toBe(false);
   });
 });

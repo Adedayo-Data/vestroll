@@ -76,8 +76,17 @@ export class NotFoundError extends AppError {
   }
 }
 
+export class BadRequestError extends AppError {
+  constructor(message: string = "Bad request") {
+    super(message, 400);
+  }
+}
+
 export class TooManyRequestsError extends AppError {
-  constructor(message: string = "Too many requests") {
+  constructor(
+    message: string = "Too many requests",
+    public retryAfter?: number
+  ) {
     super(message, 429);
   }
 }
